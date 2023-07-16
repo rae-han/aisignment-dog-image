@@ -22,33 +22,31 @@ const Panel = () => {
   }
 
   useEffect(() => {
-    const handler: KeyboardEventHandler<Window> = (e) => {
+    const handler = (e: KeyboardEvent) => {
       console.log(e.key)
-      if (e.key === 'n') {
+      if (e.key === 'n' || e.key === 'ㅜ') {
         mutate();
-      } else if (e.key === 'l') {
+      } else if (e.key === 'l' || e.key === 'ㅣ') {
         mutate((prev) => prev && { ...prev, isLiked: !prev.isLiked }, false);
       }
     }
 
-    // @ts-ignore
     globalThis.addEventListener('keydown', handler)
 
     return () => {
-      // @ts-ignore
       globalThis.removeEventListener('keydown', handler)
     }
-  }, [])
+  }, [mutate])
 
 
   return (
     <PanelContainer>
       <Video url={data?.url} key={data?.url} />
       <div className="button-area">
-        <Button theme='white' onClick={handleNextImage}>New Dog! (Cmd + n)</Button>
+        <Button theme='white' onClick={handleNextImage}>New Dog! (N Key)</Button>
         {data?.isLiked
-          ? <Button theme={'red'} onClick={handleToggleLiked}>UnLike (Cmd + l)</Button>
-          : <Button onClick={handleToggleLiked}>Like (Cmd + l)</Button>
+          ? <Button theme={'red'} onClick={handleToggleLiked}>UnLike (L Key)</Button>
+          : <Button onClick={handleToggleLiked}>Like (L Key)</Button>
         }
       </div>
     </PanelContainer>
